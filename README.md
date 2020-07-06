@@ -1,2 +1,2 @@
 # Lemda Core
-The code Lemda system
+The core Lemda system

@@ -8,7 +8,9 @@
             "method": "generate_polynomial",
             "arguments": {
                 "degree": 3,
-                "variable": "x"
+                "variable": "x",
+                "minimum": 1,
+                "maximum": 10
             }
         },
         "f'": {
@@ -41,7 +43,7 @@
 
     "checks": {
         "eq": {
-            "method": "algerbric_is_equal",
+            "method": "polynomials_are_equal",
             "arguments": {
                 "a": { "$ref": "#parameters/f'" },
                 "b": { "$ref": "#parsed/f'" },

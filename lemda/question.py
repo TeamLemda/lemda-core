@@ -8,9 +8,10 @@ def _question(question_code):
     """
     Does base parses of a question source
     """
-    generators = lib.rejson(question_code["generators"])
-    fields = lib.rejson(question_code["fields"])
-    checks = lib.rejson(question_code["checks"])
+    question_code = lib.replace_methods(blocks, "method", question_code)
+    generators = question_code["generators"]
+    fields = question_code["fields"]
+    checks = question_code["checks"]
     view = question_code["view"]
     samples = None #question_code["samples"] @TODO enable samples...
 
@@ -84,13 +85,16 @@ class Question():
 
     def get_view(self):
         fields = {}
+        params = {}
+        for k, v in self.__parameters.items():
+            params[k] = str(v)
         for field_name, content in self.__fields.items():
             field = {} 
-            parsed = lib.parse_json_refs(content, parameters=self.__parameters)
+            parsed = lib.replace_parameters(content, parameters=params)
             field["type"] = parsed["type"]
-            field["correct"] = str(parsed["correct"]) #@TODO fix this stupid lazy evaluation...
+            field["correct"] = parsed["correct"]
             fields[field_name] = field
-        view = self.__view.format(**self.__parameters)
+        view = self.__view.format(**params)
         ret = {"fields": json.dumps(fields), "view": view}
         return ret
         
@@ -105,7 +109,7 @@ class Generator():
     def generate(self):
         parameters = {}
         for parameter_name, generator_json in self.__parameters.items():
-            generator = lib.parse_json(blocks, "method", generator_json, parameters=parameters)
+            generator = lib.replace_parameters(generator_json, parameters=parameters)
             parameters[parameter_name] = generator["method"](**{**generator["arguments"], **self.__state})
         return parameters
 
@@ -119,7 +123,7 @@ class Parser():
     def parse(self, parameters, responses):
         parsed = {}
         for field_name, validator_parser_json in self.__fields.items():
-            validator_parser = lib.parse_json(blocks, "method", validator_parser_json, parameters=parameters, parsed=parsed)
+            validator_parser = lib.replace_parameters(validator_parser_json, parameters=parameters, parsed=parsed)
             validator = validator_parser["validator"]
             parser = validator_parser["parser"]
             response = responses[field_name] if field_name in responses else None
@@ -142,7 +146,7 @@ class Checker():
         feedbacks = []
         grade = 0
         for check_name, checker_json in self.__checks.items():
-            checker = lib.parse_json(blocks, "method", checker_json, parameters=parameters, parsed=parsed, checked=checked)
+            checker = lib.replace_parameters(checker_json, parameters=parameters, parsed=parsed, checked=checked)
             value, feedback = checker["method"](**{**checker["arguments"], **self.__state})
             checked[check_name] = value
             if feedback:

@@ -1,23 +1,34 @@
-def generate_polynomial(degree, variable, seed, **state):
-	print(seed)
-	return "x^3 + 5"
+import random
+
+import sympy
+from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication, convert_xor
+from sympy.polys import Poly
+
+def generate_polynomial(degree, variable, minimum, maximum, seed, **state):
+	coeff = []
+	random.seed(seed)
+	for i in range(0, degree):
+		coeff.append(random.randint(minimum, maximum))
+	return Poly(coeff, sympy.Symbol(variable))
 
 def validate_polynomial(response, variable, **state):
-	print(response)	
-	if not response or "y" in response:
+	if not response or not isinstance(response, str):
 		raise RuntimeError("Invalid input")
-	return True if response else False
+	for c in response:
+		if c not in "1234567890^+-/ ()."+variable:
+			raise RuntimeError(f"Invalid character {c}")
+	return True
 
 def parse_polynomial(response, variable, **state):
-	return response
+	return Poly(parse_expr(response, transformations=standard_transformations + (implicit_multiplication, convert_xor)))
 
 def differentiate(function, **state):
-	return "3x^2"
+	return function.diff()
 
-def algerbric_is_equal(a, b, feedback_correct, feedback_incorrect, **state):
+def polynomials_are_equal(a, b, feedback_correct, feedback_incorrect, **state):
 	value = False
 	feedback = feedback_incorrect
-	if a == b:
+	if a.coeffs() == b.coeffs():
 		value = True
 		feedback = feedback_correct
 	return (value, feedback)

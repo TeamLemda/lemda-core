@@ -11,7 +11,7 @@ from api.serializers import question, answer, feedback
 
 log = logging.getLogger(__name__)
 
-ns = api.namespace("questions", description="Operations related question solving")
+ns = api.namespace("questions", description="Operations related to question solving")
 
 
 @ns.route("/")
@@ -28,23 +28,23 @@ class QuestionsList(Resource):
         return ret
 
 
-@ns.route("/<string:name>")
+@ns.route("/<string:name>/<int:seed>")
 @ns.response(404, "Question not found.")
 class Questions(Resource):
 
     @ns.doc("get_question")
     @ns.marshal_with(question)
-    def get(self, name):
+    def get(self, name, seed):
         """
         Gets a question by name.
         """
-        return Question(QuestionStore.get_question(name)).get_view()
+        return Question(QuestionStore.get_question(name), seed=seed).get_view()
 
     @ns.doc("check_answer")
     @ns.expect(answer)
     @ns.marshal_with(feedback)
-    def put(self, name):
+    def put(self, name, seed):
         """
         Checks a question, by name and answer.
         """
-        return Question(QuestionStore.get_question(name)).get_checked(api.payload["response"])
+        return Question(QuestionStore.get_question(name), seed=seed).get_checked(api.payload["response"])

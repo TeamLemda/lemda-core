@@ -1,4 +1,5 @@
-def generate_polynomial(degree, variable, **state):
+def generate_polynomial(degree, variable, seed, **state):
+	print(seed)
 	return "x^3 + 5"
 
 def validate_polynomial(response, variable, **state):

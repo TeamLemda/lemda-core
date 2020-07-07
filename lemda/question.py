@@ -12,7 +12,7 @@ def _question(question_code):
     fields = lib.rejson(question_code["fields"])
     checks = lib.rejson(question_code["checks"])
     view = question_code["view"]
-    samples = question_code["samples"]
+    samples = None #question_code["samples"] @TODO enable samples...
 
     return generators, fields, checks, view, samples
 
@@ -57,6 +57,8 @@ class Question():
         so 'generators':{'name' :{json}, 'name': {json}}
         """
         generators, self.__fields, checks, self.__view, _ = _question(question_source)
+        if "seed" not in state:
+            state["seed"] = 0
         self.__generator = Generator(generators, **state)
         self.__parser = Parser(self.__fields, **state)
         self.__checker = Checker(checks, **state)

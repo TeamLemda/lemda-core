@@ -10,7 +10,7 @@ from api.serializers import question_source
 
 log = logging.getLogger(__name__)
 
-ns = api.namespace("curate", description="Operations related question curation")
+ns = api.namespace("curate", description="Operations related to question curation")
 
 
 @ns.route("/")

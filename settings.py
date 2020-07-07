@@ -1,0 +1,9 @@
+# Flask settings
+FLASK_SERVER_NAME = "localhost:5000"
+FLASK_DEBUG = True
+
+# Flask-Restx settings
+RESTX_SWAGGER_UI_DOC_EXPANSION = "list"
+RESTX_VALIDATE = True
+RESTX_MASK_SWAGGER = False
+RESTX_ERROR_404_HELP = False

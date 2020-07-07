@@ -1,0 +1,139 @@
+{
+    "meta": {
+        "ledma_api_version": 0.1
+    },
+
+    "generators": {
+        "f" : {
+            "method": "generate_polynomial",
+            "arguments": {
+                "degree": 3,
+                "variable": "x"
+            }
+        },
+        "f'": {
+            "method": "differentiate",
+            "arguments": {
+                "function": { "$ref": "#parameters/f" }
+            }
+        }
+    },
+
+    "fields": {
+        "f'": {
+            "validator": {
+                "method": "validate_polynomial",
+                "arguments": {
+                    "variable": "x"
+                }
+            },
+            "parser": {
+                "method": "parse_polynomial",
+                "arguments": {
+                    "variable": "x"
+                }
+            },
+
+            "type": "textbox",
+            "correct": { "$ref": "#parameters/f'" }
+        }
+    },
+
+    "checks": {
+        "eq": {
+            "method": "algerbric_is_equal",
+            "arguments": {
+                "a": { "$ref": "#parameters/f'" },
+                "b": { "$ref": "#parsed/f'" },
+                "feedback_correct": "Correct!",
+                "feedback_incorrect": "Incorrect!"
+            }
+        },
+        "grade": {
+            "method": "grade_from_bool",
+            "arguments": {
+                "field": { "$ref": "#checked/eq" }
+            }
+        }
+    },
+
+    "view":  "Find the derivative of the function {f}.",
+
+    "samples": {
+        "test_parameters": [
+            {
+                "state": {
+                    "seed": 5
+                },
+                "parameters": {
+                    "f": "x^3 + 5",
+                    "f'": "3x^2"
+                }
+            }
+        ],
+        "test_parsed": [
+            {
+                "state": {
+                    "seed": 5
+                },
+                "parameters": {
+                    "f": "x^3 + 5",
+                    "f'": "3x^2"
+                },
+                "response": {
+                    "f": "x^3 + 5",
+                    "f'": "3x^2"
+                },
+                "parsed": {
+                    "f'": "3x^2"
+                }
+            },
+            {
+                "state": {
+                    "seed": 5
+                },
+                "parameters": {
+                    "f": "x^3 + 5",
+                    "f'": "3x^2"
+                },
+                "response": {
+                    "f'": "3y^2"
+                },
+                "parsed_error": "Invalid input"
+            }
+        ],
+        "test_checks": [
+            {
+                "state": {
+                    "seed": 5
+                },
+                "parameters": {
+                    "f": "x^3 + 5",
+                    "f'": "3x^2"
+                },
+                "parsed": {
+                    "f'": "3x^2"
+                },
+                "checked": {
+                    "grade": 100,
+                    "feedback": ["Correct!"]
+                }
+            },
+            {
+                "state": {
+                    "seed": 5
+                },
+                "parameters": {
+                    "f'": "x^3 + 5"
+                },
+                "parsed": {
+                    "f'": "3x^3"
+                },
+                "checked": {
+                    "grade": 0,
+                    "feedback": ["Incorrect!"]
+                }
+            }
+        ]
+    }
+}

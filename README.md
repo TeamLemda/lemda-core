@@ -1,2 +1,4 @@
-# Lemda Core
-The core Lemda system
+Lemda Core
+==========
+
+Lemda core server

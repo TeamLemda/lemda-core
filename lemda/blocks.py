@@ -5,10 +5,8 @@ from sympy.parsing.sympy_parser import parse_expr, standard_transformations, imp
 from sympy.polys import Poly
 
 def generate_polynomial(degree, variable, minimum, maximum, seed, **state):
-	coeff = []
 	random.seed(seed)
-	for i in range(0, degree):
-		coeff.append(random.randint(minimum, maximum))
+	coeff = [random.randint(minimum, maximum) for _ in range(degree+1)]
 	return Poly(coeff, sympy.Symbol(variable))
 
 def validate_polynomial(response, variable, **state):

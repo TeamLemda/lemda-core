@@ -4,42 +4,49 @@
     },
 
     "generators": {
-        "lim": {
-            "method": "generate_number",
+        "f" : {
+            "method": "generate_polynomial",
             "arguments": {
-                "minimum": 5,
+                "degree": 3,
+                "variable": "x",
+                "minimum": 1,
                 "maximum": 10
+            }
+        },
+        "f'": {
+            "method": "differentiate",
+            "arguments": {
+                "function": { "$ref": "#parameters/f" }
             }
         }
     },
 
     "fields": {
-        "f": {
+        "f'": {
             "validator": {
-                "method": "validate_function",
+                "method": "validate_polynomial",
                 "arguments": {
                     "variable": "x"
                 }
             },
             "parser": {
-                "method": "parse_function",
+                "method": "parse_polynomial",
                 "arguments": {
                     "variable": "x"
                 }
             },
 
             "type": "textbox",
-            "correct": { "$ref": "#parameters/lim" }
+            "correct": { "$ref": "#parameters/f'" }
         }
     },
 
     "checks": {
         "eq": {
-            "method": "limit_is",
+            "method": "polynomials_are_equal",
             "arguments": {
-                "function": { "$ref": "#parsed/f" },
-                "variable": "x",
-                "limit_val": { "$ref": "#parameters/lim" },
+                "a": { "$ref": "#parameters/f'" },
+                "b": { "$ref": "#parsed/f'" },
                 "feedback_correct": "Correct!",
                 "feedback_incorrect": "Incorrect!"
             }
@@ -52,5 +59,5 @@
         }
     },
 
-    "view": "Find a function with a limit of {lim} at inifinity."
+    "view": "Find the derivative of the function {f}."
 }

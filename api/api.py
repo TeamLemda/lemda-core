@@ -23,8 +23,3 @@ def default_error_handler(e):
 def file_not_found_error_handler(e):
     log.warning(traceback.format_exc())
     return {"message": "The requested file was not found."}, 404
-
-@api.errorhandler(RuntimeError)
-def runtime_error_handler(e):
-    log.warning(traceback.format_exc())
-    return {"message": f"RuntimeError: {e}"}, 404

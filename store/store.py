@@ -16,7 +16,7 @@ class QuestionStore():
 		"""
 		Get a list of all questions
 		"""
-		return [(name, QuestionStore.get_question(name)) for name in lib.list_files(QUESTIONS_FOLDER)]
+		return [QuestionStore.get_question(name) for name in lib.list_files(QUESTIONS_FOLDER)]
 
 	@staticmethod
 	def get_question(question_name):

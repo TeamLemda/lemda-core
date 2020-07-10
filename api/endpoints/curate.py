@@ -22,7 +22,7 @@ class QuestionsSourceList(Resource):
         """
         Returns list of questions.
         """
-        return [{"name": name, "content": content} for (name, content) in QuestionStore.list_questions()]
+        return QuestionStore.list_questions()
 
     @ns.doc("create_question")
     @ns.response(201, "Question successfully created.")
@@ -31,8 +31,7 @@ class QuestionsSourceList(Resource):
         """
         Creates a new question.
         """
-        print(api.payload)
-        QuestionStore.save_question(api.payload["name"], api.payload["content"])
+        QuestionStore.save_question(api.payload["meta"]["name"], api.payload)
         return None, 201
 
 
@@ -46,7 +45,7 @@ class QuestionSource(Resource):
         """
         Gets a question by name.
         """
-        return {"name": name, "content": QuestionStore.get_question(name)}
+        return QuestionStore.get_question(name)
 
     @ns.doc("update_question")
     @ns.expect(question_source)
@@ -55,7 +54,7 @@ class QuestionSource(Resource):
         """
         Updates a question by name.
         """
-        QuestionStore.save_question(name, api.payload["content"])
+        QuestionStore.save_question(api.payload["meta"]["name"], api.payload)
         return None, 204
 
     @ns.doc("delete_question")

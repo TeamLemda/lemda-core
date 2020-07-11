@@ -1,0 +1,63 @@
+{
+    "meta": {
+        "ledma_api_version": 0.1,
+        "name": "limit"
+    },
+
+    "generators": {
+        "lim": {
+            "name": "blocks.generate_number",
+            "arguments": {
+                "minimum": 5,
+                "maximum": 10
+            }
+        }
+    },
+
+    "checks": {
+        "f": {
+            "name": "blocks.parse_function",
+            "arguments": {
+                "function": "{view.f}",
+                "variable": "x"
+            }
+        },
+        "eq": {
+            "name": "blocks.limit_is",
+            "arguments": {
+                "function": "{view.f}",
+                "variable": "x",
+                "limit_val": "{generators.lim}",
+                "feedback_correct": "Good job!",
+                "feedback_incorrect": "You got that wrong..."
+            }
+        },
+        "grade": {
+            "name": "blocks.grade_from_bool",
+            "arguments": {
+                "is_correct": "{checks.eq.output}"
+            }
+        }
+    },
+
+    "view": {
+        "f": {
+            "name": "view.function_field",
+            "arguments": {
+                "function_name": "f",
+                "variable": "x",
+                "correct": "{generators.lim}",
+                "feedback": "{checks.eq.feedback}",
+                "validation_feedback": "{checks.f.feedback}",
+                "grade": "{checks.grade.output}"
+            }
+        },
+        "view": {
+            "name": "view.html",
+            "arguments": {
+                "content": "Find a function with a limit of {generators.lim} at inifinity.<br /> {view.f}",
+                "grade": "{checks.grade.output}"
+            }
+        }
+    }
+}

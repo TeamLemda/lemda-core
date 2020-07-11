@@ -31,9 +31,6 @@ def initialize_app(flask_app):
 
     blueprint = Blueprint("api", __name__, url_prefix="/api")
     api.init_app(blueprint)
-    api.add_namespace(curate_namespace)
-    #api.add_namespace(test_namespace)
-    #api.add_namespace(questions_namespace)
     flask_app.register_blueprint(blueprint)
 
 def main():

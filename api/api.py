@@ -9,6 +9,22 @@ log = logging.getLogger(__name__)
 api = Api(version="0.1", title="Lemda API",
           description="Lemda Question API")
 
+def create_message(content):
+	return {
+	    "meta": {
+	        "ledma_api_version": 0.1,
+	        "name": "limit"
+	    },
+	    "view": {
+	        "view": {
+	            "name": "view.html",
+	            "arguments": {
+	                "content": content,
+	                "grade": None
+	            }
+	        }
+	    }
+	}
 
 @api.errorhandler
 def default_error_handler(e):
@@ -16,15 +32,10 @@ def default_error_handler(e):
     log.exception(message)
 
     if not settings.FLASK_DEBUG:
-        return {"message": message}, 500
+        return create_message(message), 500
 
 
 @api.errorhandler(FileNotFoundError)
 def file_not_found_error_handler(e):
     log.warning(traceback.format_exc())
-    return {"message": "The requested file was not found."}, 404
-
-@api.errorhandler(RuntimeError)
-def runtime_error_handler(e):
-    log.warning(traceback.format_exc())
-    return {"message": f"RuntimeError: {e}"}, 404
+    return create_message("The requested file was not found."), 404

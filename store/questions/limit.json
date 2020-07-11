@@ -42,9 +42,10 @@
 
     "view": {
         "f": {
-            "name": "view.function_field",
+            "name": "views.function_field",
             "arguments": {
-                "function_name": "f",
+                "field_name": "f",
+                "function": "f'",
                 "variable": "x",
                 "correct": "{generators.lim}",
                 "feedback": "{checks.eq.feedback}",
@@ -53,7 +54,7 @@
             }
         },
         "view": {
-            "name": "view.html",
+            "name": "views.html",
             "arguments": {
                 "content": "Find a function with a limit of {generators.lim} at inifinity.<br /> {view.f}",
                 "grade": "{checks.grade.output}"

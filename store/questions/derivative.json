@@ -63,7 +63,8 @@
         "f_tag": {
             "name": "views.function_field",
             "arguments": {
-                "function_name": "f",
+                "field_name": "f_tag",
+                "function": "f'",
                 "variable": "x",
                 "correct": "{generators.f_tag_latex}",
                 "feedback": "{checks.eq.feedback}",
@@ -74,7 +75,7 @@
         "view": {
             "name": "views.html",
             "arguments": {
-                "content": "Derive the function {generators.f_latex} at inifinity.<br /> {view.f_tag}",
+                "content": "Derive the function {generators.f_latex}.<br /> {view.f_tag}",
                 "grade": "{checks.grade.output}"
             }
         }

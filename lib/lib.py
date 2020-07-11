@@ -51,18 +51,19 @@ def format_dict(arguments, **kwargs):
 
 def format_params(string, **dicts):
     if len(string) < 3:
-        return string
+        o = string
     
-    if string[0] != "{" or string[1] == "{" or string[-1] != "}" or string[-2] == "}":
-        return format_params_nonobj(string, **dicts)
-
-    path = string[1:-1].split(".")
-    curr = dicts
-    while len(path) > 0:
-        curr = curr[path.pop(0)]
-    if isinstance(curr, Feedback):
-        curr = curr.output
-    return curr
+    elif string[0] != "{" or string[1] == "{" or string[-1] != "}" or string[-2] == "}":
+        o = format_params_nonobj(string, **dicts)
+    else:
+        path = string[1:-1].split(".")
+        curr = dicts
+        while len(path) > 0:
+            curr = curr[path.pop(0)]
+        if isinstance(curr, Feedback):
+            curr = curr.output
+        o = curr
+    return o
 
 def format_params_nonobj(string, **dicts):
     class AttrDict(dict):

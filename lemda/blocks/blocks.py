@@ -14,10 +14,11 @@ import lib
 
 
 def poly_to_latex(object, **state):
-    return latex(object.as_expr())
+    return to_latex(object.as_expr())
 
 def to_latex(object, **state):
-    return latex(object)
+    a = latex(object).replace("{", "{{").replace("}", "}}")
+    return a
 
 def generate_polynomial(degree, variable, minimum, maximum, seed, **state):
     random.seed(seed)
@@ -122,7 +123,12 @@ def parse_function(function, variable, **state):
 def parse_polynomial(response, variable, **state):
     if not validate_polynomial(response, variable):
         raise lib.BlockError("Invalid function!")
-    return Poly(parse_expr(response, transformations=standard_transformations + (implicit_multiplication, convert_xor)), Symbol(variable))
+    p = None
+    try:
+        p = Poly(parse_expr(response, transformations=standard_transformations + (implicit_multiplication, convert_xor)), Symbol(variable))
+    except SyntaxError:
+        raise lib.BlockError("Invalid function!")
+    return p
 
 def differentiate(function, **state):
     return function.diff()

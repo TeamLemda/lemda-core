@@ -75,7 +75,12 @@ class Blocks():
         success = True
         output = {}
         for block_output_name, block in self.__blocks.items():
-            arguments = lib.format_dict(block["arguments"], **{self.__name: output, **kwargs})
+            try:
+                arguments = lib.format_dict(block["arguments"], **{self.__name: output, **kwargs})
+            except KeyError as e:
+                output[block_output_name] = lib.Feedback(None, f"Missing field {str(e)}")
+                success = False
+                break
             try:
                 output[block_output_name] = self.__get_block(block["name"])(**{**arguments, **kwargs})
             except lib.BlockError as e:

@@ -37,7 +37,8 @@ class Questions(Resource):
         """
         Gets a question by name.
         """
-        return Question(QuestionStore.get_question(name), seed=seed).view()
+        v = Question(QuestionStore.get_question(name), seed=seed).view()
+        return v
 
     @ns.doc("check_answer")
     @ns.expect(answer)

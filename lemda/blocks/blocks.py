@@ -12,6 +12,11 @@ from sympy.polys import Poly
 
 import lib
 
+def parse_point(point, **state):
+    return float(point)
+
+def is_inflection(point, **state):
+    return (float(point)%pi) < 0.1
 
 def poly_to_latex(object, **state):
     return to_latex(object.as_expr())

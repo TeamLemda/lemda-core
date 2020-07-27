@@ -75,7 +75,7 @@
         "view": {
             "name": "views.html",
             "arguments": {
-                "content": "Derive the function ${generators.f_latex}$.<br /> {view.f_tag}",
+                "content": "Derive the function \({generators.f_latex}\).<br /> {view.f_tag}",
                 "grade": "{checks.grade.output}"
             }
         }

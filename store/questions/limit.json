@@ -25,7 +25,7 @@
         "eq": {
             "name": "blocks.limit_is",
             "arguments": {
-                "function": "{view.f}",
+                "function": "{checks.f}",
                 "variable": "x",
                 "limit_val": "{generators.lim}",
                 "feedback_correct": "Good job!",
@@ -45,7 +45,7 @@
             "name": "views.function_field",
             "arguments": {
                 "field_name": "f",
-                "function": "f'",
+                "function": "f",
                 "variable": "x",
                 "correct": "{generators.lim}",
                 "feedback": "{checks.eq.feedback}",

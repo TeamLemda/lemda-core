@@ -12,31 +12,31 @@ from sympy.polys import Poly
 
 import lib
 
-def parse_point(point, **state):
+def lemda_block_parse_point(point, **state):
     return float(point)
 
-def is_inflection(point, **state):
+def lemda_block_is_inflection(point, **state):
     return (float(point)%pi) < 0.1
 
-def poly_to_latex(object, **state):
-    return to_latex(object.as_expr())
+def lemda_block_poly_to_latex(object, **state):
+    return lemda_block_to_latex(object.as_expr())
 
-def to_latex(object, **state):
+def lemda_block_to_latex(object, **state):
     a = latex(object).replace("{", "{{").replace("}", "}}")
     return a
 
-def generate_polynomial(degree, variable, minimum, maximum, seed, **state):
+def lemda_block_generate_polynomial(degree, variable, minimum, maximum, seed, **state):
     random.seed(seed)
     coeff = [random.randint(minimum, maximum) for _ in range(degree+1)]
     return Poly(coeff, sympy.Symbol(variable))
 
 
-def generate_number(minimum, maximum, seed, **state):
+def lemda_block_generate_number(minimum, maximum, seed, **state):
     random.seed(seed)
     return random.randint(minimum, maximum)
 
 
-def validate_polynomial(response, variable, **state):
+def lemda_block_validate_polynomial(response, variable, **state):
     if not response or not isinstance(response, str):
         raise lib.BlockError("Invalid input")
     for c in response:
@@ -97,7 +97,7 @@ def toProperFormula(s):
     return formula[0]
 
 
-def validate_function(response, variable, **state):
+def lemda_block_validate_function(response, variable, **state):
     if not response or not isinstance(response, str):
         raise lib.BlockError("Invalid input")
 
@@ -119,13 +119,13 @@ def validate_function(response, variable, **state):
             ret = False
     return ret
 
-def parse_function(function, variable, **state):
+def lemda_block_parse_function(function, variable, **state):
     if not validate_function(function, variable):
         raise lib.BlockError("Invalid function!")
     return parse_expr(function, transformations=standard_transformations + (implicit_multiplication, convert_xor))
 
 
-def parse_polynomial(response, variable, **state):
+def lemda_block_parse_polynomial(response, variable, **state):
     if not validate_polynomial(response, variable):
         raise lib.BlockError("Invalid function!")
     p = None
@@ -135,10 +135,13 @@ def parse_polynomial(response, variable, **state):
         raise lib.BlockError("Invalid function!")
     return p
 
-def differentiate(function, **state):
+def lemda_block_differentiate(function, **state):
+    """
+    Calculates the derivative of a function.
+    """
     return function.diff()
 
-def polynomials_are_equal(a, b, feedback_correct, feedback_incorrect, **state):
+def lemda_block_polynomials_are_equal(a, b, feedback_correct, feedback_incorrect, **state):
     value = False
     feedback = feedback_incorrect
     if a == b:
@@ -146,11 +149,11 @@ def polynomials_are_equal(a, b, feedback_correct, feedback_incorrect, **state):
         feedback = feedback_correct
     return lib.Feedback(value, feedback)
 
-def grade_from_bool(is_correct, **state):
+def lemda_block_grade_from_bool(is_correct, **state):
     grade = 100 if is_correct else 0
     return grade
 
-def limit_is(function, variable, limit_val, feedback_correct, feedback_incorrect, **state):
+def lemda_block_limit_is(function, variable, limit_val, feedback_correct, feedback_incorrect, **state):
     value = False
     lim = limit(function,sympy.Symbol(variable),oo)
     feedback = feedback_incorrect + f", limit was {lim}"

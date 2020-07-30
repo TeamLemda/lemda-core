@@ -1,7 +1,7 @@
 {
     "meta": {
         "ledma_api_version": 0.1,
-        "name": "devrivative"
+        "name": "derivative"
     },
 
     "generators": {

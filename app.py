@@ -1,10 +1,10 @@
 import logging.config
 import os
 from flask import Flask, Blueprint
+from flask_cors import CORS
 
 import settings
 from api.endpoints.curate import ns as curate_namespace
-#from lemda.api.endpoints.test import ns as test_namespace
 from api.endpoints.questions import ns as questions_namespace
 from api import api
 
@@ -38,6 +38,7 @@ def main():
     Runs the app.
     """
     initialize_app(app)
+    CORS(app)
     log.info(">>>>> Starting development server at http://{}/api/ <<<<<".format(app.config["SERVER_NAME"]))
     app.run(debug=settings.FLASK_DEBUG)
 

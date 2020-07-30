@@ -23,7 +23,6 @@ class BlocksList(Resource):
         """
         Returns list of blocks.
         """
-        print(BlockStore.list_blocks())
         return BlockStore.list_blocks()
 
 

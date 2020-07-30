@@ -37,7 +37,7 @@ class BlockStore():
             for f in inspect.getmembers(module):
                 if not f[0].startswith("lemda_block_"):
                     continue
-                blocks.append({"name": lib.remove_prefix(f[0],("lemda_block_"))})
+                blocks.append({"name": file + "." + lib.remove_prefix(f[0],("lemda_block_"))})
         return blocks
 
     @staticmethod

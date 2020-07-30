@@ -27,13 +27,13 @@ def lemda_block_to_latex(object, **state):
 
 def lemda_block_generate_polynomial(degree, variable, minimum, maximum, seed, **state):
     random.seed(seed)
-    coeff = [random.randint(minimum, maximum) for _ in range(degree+1)]
+    coeff = [random.randint(int(minimum), int(maximum)) for _ in range(int(degree)+1)]
     return Poly(coeff, sympy.Symbol(variable))
 
 
 def lemda_block_generate_number(minimum, maximum, seed, **state):
     random.seed(seed)
-    return random.randint(minimum, maximum)
+    return random.randint(int(minimum), int(maximum))
 
 
 def lemda_block_validate_polynomial(response, variable, **state):
@@ -120,13 +120,13 @@ def lemda_block_validate_function(response, variable, **state):
     return ret
 
 def lemda_block_parse_function(function, variable, **state):
-    if not validate_function(function, variable):
+    if not lemda_block_validate_function(function, variable):
         raise lib.BlockError("Invalid function!")
     return parse_expr(function, transformations=standard_transformations + (implicit_multiplication, convert_xor))
 
 
 def lemda_block_parse_polynomial(response, variable, **state):
-    if not validate_polynomial(response, variable):
+    if not lemda_block_validate_polynomial(response, variable):
         raise lib.BlockError("Invalid function!")
     p = None
     try:

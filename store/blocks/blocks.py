@@ -5,6 +5,7 @@ import re
 from io import StringIO
     
 import sympy
+from latex2sympy.process_latex import process_sympy
 from sympy import *
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication, convert_xor
 from sympy.polys import Poly
@@ -12,11 +13,17 @@ from sympy.polys import Poly
 
 import lib
 
+def lemda_block_do_latex(latex, **state):
+    return process_sympy(latex).doit()
+
 def lemda_block_parse_point(point, **state):
     return float(point)
 
 def lemda_block_is_inflection(point, **state):
     return (float(point)%pi) < 0.1
+
+def lemda_block_poly_to_expr(object, **state):
+    return object.as_expr()
 
 def lemda_block_poly_to_latex(object, **state):
     return lemda_block_to_latex(object.as_expr())
@@ -133,7 +140,7 @@ def lemda_block_parse_polynomial(response, variable, **state):
         p = Poly(parse_expr(response, transformations=standard_transformations + (implicit_multiplication, convert_xor)), Symbol(variable))
     except SyntaxError:
         raise lib.BlockError("Invalid function!")
-    return p
+    return p.as_expr()
 
 def lemda_block_differentiate(function, **state):
     """

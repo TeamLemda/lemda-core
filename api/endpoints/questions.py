@@ -23,7 +23,7 @@ class QuestionsList(Resource):
         """
         Returns list of questions.
         """
-        ret = [Question(q, seed=seed).view() for q in QuestionStore.list_questions()]
+        ret = [Question(QuestionStore.get_question(q["name"]), seed=seed).view() for q in QuestionStore.list_questions()]
         return ret
 
 

@@ -1,17 +1,16 @@
 {
     "meta": {
         "ledma_api_version": 0.1,
-        "name": "derivative"
+        "name": "test"
     },
-
     "generators": {
         "f": {
             "name": "blocks.generate_polynomial",
             "arguments": {
-                "degree": 3,
+                "degree": "3",
                 "variable": "x",
-                "minimum": 1,
-                "maximum": 10
+                "minimum": "1",
+                "maximum": "10"
             }
         },
         "f_latex": {
@@ -21,9 +20,9 @@
             }
         },
         "f_tag": {
-            "name": "blocks.differentiate",
+            "name": "blocks.do_latex",
             "arguments": {
-                "function": "{generators.f}"
+                "latex": "\\frac{{d}}{{dx}} ({generators.f_latex})"
             }
         },
         "f_tag_latex": {
@@ -33,7 +32,6 @@
             }
         }
     },
-
     "checks": {
         "f_tag": {
             "name": "blocks.parse_polynomial",
@@ -58,7 +56,6 @@
             }
         }
     },
-
     "view": {
         "f_tag": {
             "name": "views.function_field",

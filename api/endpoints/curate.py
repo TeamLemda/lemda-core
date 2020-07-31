@@ -4,20 +4,45 @@ from flask import request
 from flask_restx import Resource
 
 from store import QuestionStore
+from store import BlockStore
 
 from api import api
-from api.serializers import question_source
+from api.serializers import question_source, block, name
 
 log = logging.getLogger(__name__)
 
-ns = api.namespace("curate", description="Operations related to question curation")
+ns = api.namespace("curate", description="Operations related to question and block curation")
 
 
-@ns.route("/")
-class QuestionsSourceList(Resource):
+@ns.route("/blocks")
+class BlocksList(Resource):
+
+    @ns.doc("list_blocks")
+    @ns.marshal_list_with(name)
+    def get(self):
+        """
+        Returns list of blocks.
+        """
+        return BlockStore.list_blocks()
+
+
+@ns.route("/blocks/<string:name>")
+@ns.response(404, "Block not found.")
+class Block(Resource):
+
+    @ns.doc("get_block")
+    @ns.marshal_with(block)
+    def get(self, name):
+        """
+        Gets a block by name.
+        """
+        return BlockStore.get_block(name)
+
+@ns.route("/questions")
+class QuestionsList(Resource):
 
     @ns.doc("list_questions")
-    @ns.marshal_list_with(question_source)
+    @ns.marshal_list_with(name)
     def get(self):
         """
         Returns list of questions.
@@ -35,9 +60,9 @@ class QuestionsSourceList(Resource):
         return None, 201
 
 
-@ns.route("/<string:name>")
+@ns.route("/questions/<string:name>")
 @ns.response(404, "Question not found.")
-class QuestionSource(Resource):
+class Question(Resource):
 
     @ns.doc("get_question")
     @ns.marshal_with(question_source)

@@ -1,7 +1,7 @@
 {
     "meta": {
         "ledma_api_version": 0.1,
-        "name": "devrivative"
+        "name": "inflection"
     },
 
     "generators": {
@@ -45,7 +45,7 @@
         "view": {
             "name": "views.html",
             "arguments": {
-                "content": "Put the point on an inflection point of the fucntion: <br /> {view.point}",
+                "content": "Put the point on an inflection point of the function: <br /> {view.point}",
                 "grade": "{checks.grade.output}"
             }
         }

@@ -1,8 +1,21 @@
 import os
 import json
 import collections
+import inspect
 
 import jsonref
+
+def remove_prefix(text, prefix):
+    if text.startswith(prefix):
+        return text[len(prefix):]
+    return text  # or whatever
+
+def describe_function(name, value):
+    return {
+        "name": remove_prefix(name,("lemda_block_")),
+        "arguments": [a for a in inspect.getfullargspec(value).args if a != "seed"],
+        "documentation": value.__doc__ or ""
+    }
 
 class Feedback():
     output = None

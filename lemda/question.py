@@ -1,8 +1,5 @@
-import unittest
-import json
-import importlib
-
 import lib
+from store import BlockStore
 
 class Question():
 
@@ -61,13 +58,6 @@ class Blocks():
         self.__name = name
         self.__blocks = blocks
 
-    def __get_block(self, block_name):
-        """
-        Gets a block
-        """
-        lib, name = tuple(block_name.split("."))
-        return getattr(importlib.import_module("..blocks."+lib, __name__), name)
-
     def run(self, **kwargs):
         """
         Runs all blocks in a block chunk.
@@ -82,7 +72,7 @@ class Blocks():
                 success = False
                 break
             try:
-                output[block_output_name] = self.__get_block(block["name"])(**{**arguments, **kwargs})
+                output[block_output_name] = BlockStore.get_code(block["name"])(**{**arguments, **kwargs})
             except lib.BlockError as e:
                 output[block_output_name] = lib.Feedback(None, str(e))
                 success = False

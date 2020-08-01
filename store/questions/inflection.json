@@ -3,11 +3,26 @@
         "ledma_api_version": 0.1,
         "name": "inflection"
     },
-
-    "generators": {
-        
+    "generators": {},
+    "view": {
+        "point": {
+            "name": "views.graph_point_field",
+            "arguments": {
+                "field_name": "point",
+                "correct": "0",
+                "feedback": "{checks.is_inflection.feedback}",
+                "validation_feedback": "{checks.point.feedback}",
+                "grade": "{checks.grade.output}"
+            }
+        },
+        "view": {
+            "name": "views.html",
+            "arguments": {
+                "content": "Put the point on an inflection point of the function: <br /> {view.point}",
+                "grade": "{checks.grade.output}"
+            }
+        }
     },
-
     "checks": {
         "point": {
             "name": "blocks.parse_point",
@@ -27,26 +42,6 @@
             "name": "blocks.grade_from_bool",
             "arguments": {
                 "is_correct": "{checks.is_inflection.output}"
-            }
-        }
-    },
-
-    "view": {
-        "point": {
-            "name": "views.graph_point_field",
-            "arguments": {
-                "field_name": "point",
-                "correct": "0",
-                "feedback": "{checks.is_inflection.feedback}",
-                "validation_feedback": "{checks.point.feedback}",
-                "grade": "{checks.grade.output}"
-            }
-        },
-        "view": {
-            "name": "views.html",
-            "arguments": {
-                "content": "Put the point on an inflection point of the function: <br /> {view.point}",
-                "grade": "{checks.grade.output}"
             }
         }
     }

@@ -79,7 +79,7 @@ class Question(Resource):
         """
         Updates a question by name.
         """
-        QuestionStore.save_question(api.payload["meta"]["name"], api.payload)
+        QuestionStore.save_question(name, api.payload)
         return None, 204
 
     @ns.doc("delete_question")

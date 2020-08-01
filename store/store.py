@@ -86,7 +86,10 @@ class QuestionStore():
         """
         Update the content of a question
         """
-        json.dump(question, open(os.path.join(QuestionStore.QUESTIONS_FOLDER, question_name + ".json"),"w"), indent=4)
+        if question_name != question["meta"]["name"]:
+            print("Rename")
+            os.remove(os.path.join(QuestionStore.QUESTIONS_FOLDER, question_name + ".json"))
+        json.dump(question, open(os.path.join(QuestionStore.QUESTIONS_FOLDER, question["meta"]["name"] + ".json"),"w"), indent=4)
 
     @staticmethod
     def delete_question(question_name):

@@ -3,8 +3,6 @@ import json
 import collections
 import inspect
 
-import jsonref
-
 def remove_prefix(text, prefix):
     if text.startswith(prefix):
         return text[len(prefix):]

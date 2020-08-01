@@ -72,7 +72,7 @@ class QuestionStore():
         """
         Get a list of all questions
         """
-        return [{"name": n} for n in lib.list_files(QuestionStore.QUESTIONS_FOLDER)]
+        return [{"name": n} for n in lib.list_files(QuestionStore.QUESTIONS_FOLDER, "json")]
 
     @staticmethod
     def get_question(question_name):

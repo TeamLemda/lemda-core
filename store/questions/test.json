@@ -10,7 +10,7 @@
                 "degree": "3",
                 "variable": "x",
                 "minimum": "1",
-                "maximum": "5"
+                "maximum": "10"
             }
         },
         "f_latex": {
@@ -26,30 +26,9 @@
             }
         },
         "f_tag_latex": {
-            "name": "blocks.to_latex",
+            "name": "blocks.poly_to_latex",
             "arguments": {
                 "object": "{generators.f_tag}"
-            }
-        }
-    },
-    "view": {
-        "f_tag": {
-            "name": "views.function_field",
-            "arguments": {
-                "field_name": "f_tag",
-                "function": "f'",
-                "variable": "x",
-                "correct": "{generators.f_tag_latex}",
-                "feedback": "{checks.eq.feedback}",
-                "validation_feedback": "{checks.f_tag.feedback}",
-                "grade": "{checks.grade.output}"
-            }
-        },
-        "view": {
-            "name": "views.html",
-            "arguments": {
-                "content": "Derive the function [mathjaxinline]{generators.f_latex}[/mathjaxinline].<br /> {view.f_tag}",
-                "grade": "{checks.grade.output}"
             }
         }
     },
@@ -74,6 +53,27 @@
             "name": "blocks.grade_from_bool",
             "arguments": {
                 "is_correct": "{checks.eq.output}"
+            }
+        }
+    },
+    "view": {
+        "f_tag": {
+            "name": "views.function_field",
+            "arguments": {
+                "field_name": "f_tag",
+                "function": "f'",
+                "variable": "x",
+                "correct": "{generators.f_tag_latex}",
+                "feedback": "{checks.eq.feedback}",
+                "validation_feedback": "{checks.f_tag.feedback}",
+                "grade": "{checks.grade.output}"
+            }
+        },
+        "view": {
+            "name": "views.html",
+            "arguments": {
+                "content": "Derive the function [mathjaxinline]{generators.f_latex}[/mathjaxinline].<br /> {view.f_tag}",
+                "grade": "{checks.grade.output}"
             }
         }
     }

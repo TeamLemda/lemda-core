@@ -3,7 +3,6 @@
         "ledma_api_version": 0.1,
         "name": "limit"
     },
-
     "generators": {
         "lim": {
             "name": "blocks.generate_number",
@@ -13,7 +12,27 @@
             }
         }
     },
-
+    "view": {
+        "f": {
+            "name": "views.function_field",
+            "arguments": {
+                "field_name": "f",
+                "function": "f",
+                "variable": "x",
+                "correct": "{generators.lim}",
+                "feedback": "{checks.eq.feedback}",
+                "validation_feedback": "{checks.f.feedback}",
+                "grade": "{checks.grade.output}"
+            }
+        },
+        "view": {
+            "name": "views.html",
+            "arguments": {
+                "content": "Find a function with a limit of {generators.lim} at inifinity.<br /> {view.f}",
+                "grade": "{checks.grade.output}"
+            }
+        }
+    },
     "checks": {
         "f": {
             "name": "blocks.parse_function",
@@ -36,28 +55,6 @@
             "name": "blocks.grade_from_bool",
             "arguments": {
                 "is_correct": "{checks.eq.output}"
-            }
-        }
-    },
-
-    "view": {
-        "f": {
-            "name": "views.function_field",
-            "arguments": {
-                "field_name": "f",
-                "function": "f",
-                "variable": "x",
-                "correct": "{generators.lim}",
-                "feedback": "{checks.eq.feedback}",
-                "validation_feedback": "{checks.f.feedback}",
-                "grade": "{checks.grade.output}"
-            }
-        },
-        "view": {
-            "name": "views.html",
-            "arguments": {
-                "content": "Find a function with a limit of {generators.lim} at inifinity.<br /> {view.f}",
-                "grade": "{checks.grade.output}"
             }
         }
     }

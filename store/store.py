@@ -87,7 +87,8 @@ class QuestionStore():
         Update the content of a question
         """
         if question_name != question["meta"]["name"]:
-            print("Rename")
+            if os.path.isfile(os.path.join(QuestionStore.QUESTIONS_FOLDER,  question["meta"]["name"] + ".json")):
+                raise RuntimeError("File exists!")
             os.remove(os.path.join(QuestionStore.QUESTIONS_FOLDER, question_name + ".json"))
         json.dump(question, open(os.path.join(QuestionStore.QUESTIONS_FOLDER, question["meta"]["name"] + ".json"),"w"), indent=4)
 

@@ -11,6 +11,8 @@ from api import api
 
 app = Flask(__name__)
 
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 logging_conf_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "logging.conf"))
 logging.config.fileConfig(logging_conf_path)

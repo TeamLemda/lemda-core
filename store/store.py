@@ -5,6 +5,26 @@ import inspect
 
 import lib
 
+class CodeStore():
+    # Path to where blocks are, should probably be relative.
+    CODE_FILE = "store/blocks/blocks.py"
+
+    @staticmethod
+    def read():
+        """
+        Get code
+        """
+        with open(CodeStore.CODE_FILE) as f:
+            file = f.read()
+        return {"code": file}
+
+    @staticmethod
+    def write(payload):
+        """
+        Set code
+        """
+        with open(CodeStore.CODE_FILE, "w") as f:
+            f.write(payload["code"])
 
 class BlockStore():
     """
@@ -72,7 +92,7 @@ class QuestionStore():
         """
         Get a list of all questions
         """
-        return [{"name": n} for n in lib.list_files(QuestionStore.QUESTIONS_FOLDER)]
+        return [{"name": n} for n in lib.list_files(QuestionStore.QUESTIONS_FOLDER, "json")]
 
     @staticmethod
     def get_question(question_name):
@@ -86,7 +106,11 @@ class QuestionStore():
         """
         Update the content of a question
         """
-        json.dump(question, open(os.path.join(QuestionStore.QUESTIONS_FOLDER, question_name + ".json"),"w"), indent=4)
+        if question_name != question["meta"]["name"]:
+            if os.path.isfile(os.path.join(QuestionStore.QUESTIONS_FOLDER,  question["meta"]["name"] + ".json")):
+                raise RuntimeError("File exists!")
+            os.remove(os.path.join(QuestionStore.QUESTIONS_FOLDER, question_name + ".json"))
+        json.dump(question, open(os.path.join(QuestionStore.QUESTIONS_FOLDER, question["meta"]["name"] + ".json"),"w"), indent=4)
 
     @staticmethod
     def delete_question(question_name):

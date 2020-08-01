@@ -3,16 +3,36 @@ import logging
 from flask import request
 from flask_restx import Resource
 
-from store import QuestionStore
-from store import BlockStore
+from store import QuestionStore, BlockStore, CodeStore
 
 from api import api
-from api.serializers import question_source, block, name
+from api.serializers import question_source, block, name, code
 
 log = logging.getLogger(__name__)
 
 ns = api.namespace("curate", description="Operations related to question and block curation")
 
+
+@ns.route("/code")
+class Code(Resource):
+
+    @ns.doc("get_blocks_code")
+    @ns.marshal_with(code)
+    def get(self):
+        """
+        Returns blocks code.
+        """
+        return CodeStore.read()
+
+    @ns.doc("update_blocks_code")
+    @ns.expect(code)
+    @ns.response(204, "Code successfully updated.")
+    def put(self):
+        """
+        Updates blocks code.
+        """
+        CodeStore.write(api.payload)
+        return None, 204
 
 @ns.route("/blocks")
 class BlocksList(Resource):
@@ -24,6 +44,8 @@ class BlocksList(Resource):
         Returns list of blocks.
         """
         return BlockStore.list_blocks()
+
+
 
 
 @ns.route("/blocks/<string:name>")
@@ -79,7 +101,7 @@ class Question(Resource):
         """
         Updates a question by name.
         """
-        QuestionStore.save_question(api.payload["meta"]["name"], api.payload)
+        QuestionStore.save_question(name, api.payload)
         return None, 204
 
     @ns.doc("delete_question")

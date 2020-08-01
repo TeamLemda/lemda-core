@@ -93,11 +93,14 @@ def format_params_nonobj(string, **dicts):
         return AttrDict(attrdicts)
     return string.format(string, **to_attrdict(dicts))
 
-def list_files(folder):
+def list_files(folder, ext=None):
     """
     List file names without extension in a folder
     """
-    return [c for c in [".".join(f.split(".")[:-1]) for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))] if c != ""]
+    files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
+    if ext:
+        files = [f for f in files if f.endswith("." + ext)]
+    return [c for c in [".".join(f.split(".")[:-1]) for f in files] if c != ""]
 
 def replace_methods(lib, key, obj):
     """

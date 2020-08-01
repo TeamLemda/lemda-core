@@ -1,6 +1,10 @@
 from flask_restx import fields
 from api import api
 
+code = api.model("Blocks Code",{
+    "code": fields.String(description="Name of the object")
+})
+
 name = api.model("Name",{
     "name": fields.String(description="Name of the object")
 })

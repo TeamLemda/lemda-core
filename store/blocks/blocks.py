@@ -13,6 +13,12 @@ from sympy.polys import Poly
 
 import lib
 
+def lemda_block_parse_int(inp, **state):
+    return int(inp)
+
+def lemda_block_do_sympy(sympy, **state):
+    return eval(sympy)
+
 def lemda_block_do_latex(latex, **state):
     return process_sympy(latex).doit()
 

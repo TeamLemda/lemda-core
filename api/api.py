@@ -15,7 +15,16 @@ def specs_url(self):
     """
     return flask.url_for(self.endpoint('specs'), _external=False)
 
+@property
+def base_url(self):
+    """Fixes issue where swagger-ui makes a call to swagger.json over HTTP.
+       This can ONLY be used on servers that actually use HTTPS.  On servers that use HTTP,
+       this code should not be used at all.
+    """
+    return flask.url_for(self.endpoint("root"), _external=False)
+
 Api.specs_url = specs_url
+Api.base_url = base_url
 api = Api(version="0.1", title="Lemda API",
           description="Lemda Question API")
 

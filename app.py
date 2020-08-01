@@ -2,7 +2,7 @@ import logging.config
 import os
 from flask import Flask, Blueprint
 from flask_cors import CORS
-from werkzeug.middleware.proxy_fix import ProxyFix
+
 
 import settings
 from api.endpoints.curate import ns as curate_namespace
@@ -10,12 +10,11 @@ from api.endpoints.questions import ns as questions_namespace
 from api import api
 
 app = Flask(__name__)
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_port=1, x_for=1, x_host=1, x_prefix=1)
+
 
 logging_conf_path = os.path.normpath(os.path.join(os.path.dirname(__file__), "logging.conf"))
 logging.config.fileConfig(logging_conf_path)
 log = logging.getLogger(__name__)
-
 
 def configure_app(flask_app):
     """
@@ -26,6 +25,7 @@ def configure_app(flask_app):
     flask_app.config["RESTX_VALIDATE"] = settings.RESTX_VALIDATE
     flask_app.config["RESTX_MASK_SWAGGER"] = settings.RESTX_MASK_SWAGGER
     flask_app.config["ERROR_404_HELP"] = settings.RESTX_ERROR_404_HELP
+
 
 def initialize_app(flask_app):
     """

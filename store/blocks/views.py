@@ -10,6 +10,6 @@ def lemda_block_graph_point_field(field_name, correct, feedback, validation_feed
 	"""
 	"""
 
-def lemda_block_html(content, grade, is_submit, **state):
+def lemda_block_html(content, grade, **state):
 	"""
 	"""

@@ -11,7 +11,7 @@ class Question():
         self.__question = question
         self.__state = state
         self.__checks = {key:lib.Feedback(None, "") for key in question["checks"].keys()}
-        self.__view = {key:f"{{view.{key}}}" for key in question["view"].keys()}
+        self.__view = {}
         self.__generators = Blocks("generators", self.__question["generators"]).run(**self.__state)["output"]
     
     def check(self, answer):
@@ -36,9 +36,8 @@ class Question():
         """
         return {
             "meta": self.__meta,
-            "view": lib.format_dict(
+            "view": lib.format_params_nonobj(
                 self.__question["view"],
-                view=self.__view,
                 checks=self.__checks,
                 generators=self.__generators,
                 state=self.__state

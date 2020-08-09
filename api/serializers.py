@@ -18,7 +18,7 @@ question_source = api.model("Question Source", {
     "meta": fields.Nested(meta, description="Question metadata"),
     "generators": fields.Raw(description="The generator blocks of the question"),
     "checks": fields.Raw(description="The check blocks of the question"),
-    "view": fields.Raw(description="The view blocks of the question"),
+    "view": fields.String(description="The view of the question"),
 })
 
 block = api.model("Block", {
@@ -29,7 +29,7 @@ block = api.model("Block", {
 
 question = api.model("Question", {
     "meta": fields.Nested(meta, description="Question metadata"),
-    "view": fields.Raw(description="The view blocks of the question"),
+    "view": fields.String(description="The view of the question"),
 })
 
 answer = api.model("Answer", {

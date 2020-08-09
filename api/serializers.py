@@ -29,6 +29,8 @@ block = api.model("Block", {
 
 question = api.model("Question", {
     "meta": fields.Nested(meta, description="Question metadata"),
+    "generators": fields.Raw(description="The generator blocks of the question"),
+    "checks": fields.Raw(description="The check blocks of the question"),
     "view": fields.String(description="The view of the question"),
 })
 

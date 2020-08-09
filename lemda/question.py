@@ -1,4 +1,5 @@
 import lib
+from pprint import pprint
 from store import BlockStore
 
 class Question():
@@ -10,7 +11,7 @@ class Question():
         self.__meta = question["meta"]
         self.__question = question
         self.__state = state
-        self.__checks = {key:lib.Feedback(None, "") for key in question["checks"].keys()}
+        self.__checks = {key:lib.Feedback(None, "", "", None) for key in question["checks"].keys()}
         self.__view = {}
         self.__generators = Blocks("generators", self.__question["generators"]).run(**self.__state)["output"]
     
@@ -34,15 +35,14 @@ class Question():
         """
         Show the question.
         """
-        return {
+        view = {
             "meta": self.__meta,
-            "view": lib.format_params_nonobj(
-                self.__question["view"],
-                checks=self.__checks,
-                generators=self.__generators,
-                state=self.__state
-            )
+            "generators": lib.format_dict(self.__generators, state=self.__state),
+            "checks": lib.format_dict(self.__checks, generators=self.__generators, state=self.__state),
+            "view": self.__question["view"]
         }
+        pprint(type(view["generators"]["f_tag"].output))
+        return view
             
 
 class Blocks():
@@ -67,15 +67,15 @@ class Blocks():
             try:
                 arguments = lib.format_dict(block["arguments"], **{self.__name: output, **kwargs})
             except KeyError as e:
-                output[block_output_name] = lib.Feedback(None, f"Missing field {str(e)}")
+                output[block_output_name] = lib.Feedback(output=None, display=None, feedback=f"Missing field {str(e)}", grade=None)
                 success = False
                 break
             try:
                 output[block_output_name] = BlockStore.get_code(block["name"])(**{**arguments, **kwargs})
             except lib.BlockError as e:
-                output[block_output_name] = lib.Feedback(None, str(e))
+                output[block_output_name] = lib.Feedback(output=None, display=None, feedback=str(e), grade=None)
                 success = False
                 break
             if not isinstance(output[block_output_name],lib.Feedback):
-                output[block_output_name] = lib.Feedback(output[block_output_name], "")
+                output[block_output_name] = lib.Feedback(output=output[block_output_name], display=output[block_output_name], feedback="", grade=None)
         return {"status": success, "output": output}

@@ -41,7 +41,6 @@ class Question():
             "checks": lib.format_dict(self.__checks, generators=self.__generators, state=self.__state),
             "view": self.__question["view"]
         }
-        pprint(type(view["generators"]["f_tag"].output))
         return view
             
 

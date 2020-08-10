@@ -105,16 +105,26 @@ def describe_function(name, value):
     }
 
 
-class Feedback(collections.namedtuple('Feedback', ['output', 'display', 'feedback', 'grade'])):
-        __slots__ = ()
-        def __str__(self):
-            return str(self.display)
-        def __repr__(self):
-            return str({"display":self.display, "feedback":self.feedback, "grade":self.grade})
+class Feedback(dict):
+    def __init__(self, output, display, feedback, grade):
+        dict.__init__(self, display=display, feedback=feedback, grade=grade)
+        self.__dict__ = {
+            "display": self["display"], 
+            "feedback": self["feedback"], 
+            "grade": self["grade"]
+        }
+        self.output = output
 
-        def __iter__(self):
-            for key in ['display', 'feedback', 'grade']:
-                yield getattr(self, key)
+    def __str__(self):
+        return str(self.display)
+
+    def __repr__(self):
+        return str({"display":self.display, "feedback":self.feedback, "grade":self.grade})
+
+    def __iter__(self):
+        print('Heres!!!!')
+        for key in ['display', 'feedback', 'grade']:
+            yield (key, getattr(self, key))
 
 class BlockError(RuntimeError):
     pass
@@ -126,8 +136,8 @@ def format_list(arguments, **kwargs):
     output = []
     for arg in arguments:
         if isinstance(arg, str):
-            output.append(format_params_nonobj(arg, **kwargs))
-        elif isinstance(arg, dict):
+            output.append(format_params(arg, **kwargs))
+        elif isinstance(arg, dict) and not isinstance(arg, Feedback):
             output.append(format_dict(arg, **kwargs))
         elif isinstance(arg, list):
             output.append(format_list(arg, **kwargs))
@@ -140,8 +150,8 @@ def format_dict(arguments, **kwargs):
     """
     for arg_name, arg in arguments.items():
         if isinstance(arg, str):
-            arguments[arg_name] = format_params_nonobj(arg, **kwargs)
-        elif isinstance(arg, dict):
+            arguments[arg_name] = format_params(arg, **kwargs)
+        elif isinstance(arg, dict) and not isinstance(arg, Feedback):
             arguments[arg_name] = format_dict(arg, **kwargs)
         elif isinstance(arg, list):
             arguments[arg_name] = format_list(arg, **kwargs)
@@ -172,7 +182,7 @@ def format_params_nonobj(string, **dicts):
     def to_attrdict(dicts):
         attrdicts = {}
         for k, v in dicts.items():
-            if isinstance(v, dict):
+            if isinstance(v, dict) and not isinstance(v, Feedback):
                 attrdicts[k] = to_attrdict(v)
             else:
                 attrdicts[k] = v

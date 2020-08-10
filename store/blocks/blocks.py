@@ -67,7 +67,8 @@ def lemda_block_polynomials_are_equal(a, b, feedback_correct, feedback_incorrect
     if a == b:
         value = True
         feedback = feedback_correct
-    return lib.Feedback(output=value, display="", feedback=feedback, grade=(100 if value else 0))
+    grade=(100 if value else 0)
+    return lib.Feedback(output=value, display=f"%{grade}", feedback=feedback, grade=grade)
 
 def lemda_block_limit_is(function, variable, limit_val, feedback_correct, feedback_incorrect, **state):
     value = False
@@ -76,4 +77,5 @@ def lemda_block_limit_is(function, variable, limit_val, feedback_correct, feedba
     if lim == limit_val:
         value = True
         feedback = feedback_correct
-    return lib.Feedback(output=value, display="", feedback=feedback, grade=(100 if value else 0))
+    grade=(100 if value else 0)
+    return lib.Feedback(output=value, display=f"%{grade}", feedback=feedback, grade=grade)

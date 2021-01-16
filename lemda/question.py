@@ -21,7 +21,7 @@ class Question():
         """
         ret = True
         checks = Blocks("checks", self.__question["checks"]).run(
-            view=answer["view"],
+            answer=answer["answer"],
             generators=self.__generators,
             **self.__state
         )
@@ -30,6 +30,15 @@ class Question():
         for k, v in checks["output"].items():
             self.__checks[k] = v
         return ret
+
+    def check_view(self):
+        """
+        Show only the checks.
+        """
+        view = {
+            "checks": lib.format_dict(self.__checks, generators=self.__generators, state=self.__state),
+        }
+        return view
 
     def view(self):
         """

@@ -5,27 +5,6 @@ import inspect
 
 import lib
 
-class CodeStore():
-    # Path to where blocks are, should probably be relative.
-    CODE_FILE = "store/blocks/blocks.py"
-
-    @staticmethod
-    def read():
-        """
-        Get code
-        """
-        with open(CodeStore.CODE_FILE) as f:
-            file = f.read()
-        return {"code": file}
-
-    @staticmethod
-    def write(payload):
-        """
-        Set code
-        """
-        with open(CodeStore.CODE_FILE, "w") as f:
-            f.write(payload["code"])
-
 class BlockStore():
     """
     Handels access to blocks from the lib

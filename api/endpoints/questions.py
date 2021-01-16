@@ -7,7 +7,7 @@ from store import QuestionStore
 from lemda import Question
 
 from api import api
-from api.serializers import question, answer
+from api.serializers import question, answer, checked
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ class Questions(Resource):
 
     @ns.doc("check_answer")
     @ns.expect(answer)
-    @ns.marshal_with(question)
+    @ns.marshal_with(checked)
     def put(self, name, seed):
         """
         Checks a question, by name and answer.

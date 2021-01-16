@@ -34,6 +34,10 @@ question = api.model("Question", {
     "view": fields.String(description="The view of the question"),
 })
 
+checked = api.model("Checked", {
+    "checks": fields.Raw(description="The check blocks of the question"),
+})
+
 answer = api.model("Answer", {
-    "view": fields.Raw(description="The answers")
+    "answer": fields.Raw(description="The answers")
 })

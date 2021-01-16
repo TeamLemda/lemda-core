@@ -5,7 +5,7 @@ import re
 from io import StringIO
     
 import sympy
-from latex2sympy.process_latex import process_sympy
+from sympy.parsing.latex import parse_latex
 from sympy import *
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication, convert_xor
 from sympy.polys import Poly
@@ -22,7 +22,7 @@ def lemda_block_is_inflection(point, **state):
     )
 
 def lemda_block_do_latex(latex, **state):
-    output = process_sympy(latex).doit()
+    output = parse_latex(latex).doit()
     return lib.Feedback(output=output, display=lib.to_latex(output), feedback="", grade=None)
 
 def lemda_block_generate_polynomial(degree, variable, minimum, maximum, seed, **state):

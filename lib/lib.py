@@ -10,7 +10,6 @@ import re
 from io import StringIO
 
 import sympy
-from latex2sympy.process_latex import process_sympy
 from sympy import *
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication, convert_xor
 from sympy.polys import Poly

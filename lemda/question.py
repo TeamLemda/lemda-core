@@ -73,13 +73,13 @@ class Blocks():
         output = {}
         for block_output_name, block in self.__blocks.items():
             try:
-                arguments = lib.format_dict(block["arguments"], **{self.__name: output, **kwargs})
+                arguments = lib.format_dict(block["args"], **{self.__name: output, **kwargs})
             except KeyError as e:
                 output[block_output_name] = lib.Feedback(output=None, display=None, feedback=f"Missing field {str(e)}", grade=None)
                 success = False
                 break
             try:
-                output[block_output_name] = BlockStore.get_code(block["name"])(**{**arguments, **kwargs})
+                output[block_output_name] = BlockStore.get_code(block["method"])(**{**arguments, **kwargs})
             except lib.BlockError as e:
                 output[block_output_name] = lib.Feedback(output=None, display=None, feedback=str(e), grade=None)
                 success = False

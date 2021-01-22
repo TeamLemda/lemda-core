@@ -10,7 +10,7 @@ name = api.model("Name",{
 })
 
 meta = api.model("Meta", {
-	"ledma_api_version": fields.Float(description="The version of the Lemda API"),
+	"api_version": fields.Float(description="The version of the Lemda API"),
 	"name": fields.String(description="The name of the problem"),
 })
 
@@ -22,8 +22,8 @@ question_source = api.model("Question Source", {
 })
 
 block = api.model("Block", {
-    "name": fields.String(description="The name of the block"),
-    "arguments": fields.Raw(description="List of arguments required for the block"),
+    "method": fields.String(description="The name of the block"),
+    "args": fields.Raw(description="List of arguments required for the block"),
     "documentation": fields.String(description="Block documentation"),
 })
 

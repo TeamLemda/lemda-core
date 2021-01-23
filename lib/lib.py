@@ -108,8 +108,8 @@ def remove_prefix(text, prefix):
 
 def describe_function(name, value):
     return {
-        "name": remove_prefix(name,("lemda_block_")),
-        "arguments": [a for a in inspect.getfullargspec(value).args if a != "seed"],
+        "method": remove_prefix(name,("lemda_block_")),
+        "args": [a for a in inspect.getfullargspec(value).args if a != "seed"],
         "documentation": value.__doc__ or ""
     }
 
